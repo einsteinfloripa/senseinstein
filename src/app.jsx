@@ -71,15 +71,22 @@ export function App() {
       <form
         className='w-1/3'
         onSubmit={(e) => {
+          e.preventDefault();
+          const formatarCursoId = faculdades[0]["Cursos"].find(
+            (faculdade) => faculdade.nome === stateDadosVoluntario.cursoId,
+          );
           try {
-            e.preventDefault();
             const formatarDados = {
               ...stateDadosVoluntario,
+              cursoId: formatarCursoId.id,
               endereco: stateEnderecoVoluntario,
               entrada: stateEntradaVoluntario,
             };
-            axios.post(`${url}/voluntario`, formatarDados);
-          } catch (error) {}
+            console.log(formatarDados);
+            axios.post(`${url}/voluntario `, formatarDados);
+          } catch (error) {
+            console.log(error);
+          }
         }}>
         <div className='flex flex-col bg-blue-400'>
           <h1 className='text-white text-center text-5xl'>
@@ -158,7 +165,7 @@ export function App() {
             onChange={(e) => {
               setDadosVoluntario({
                 ...stateDadosVoluntario,
-                curso: e.target.value,
+                cursoId: e.target.value,
               });
             }}
             list={`faculdades`}
